@@ -1,0 +1,326 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}     
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}  % Accents codés dans la fonte
+\usepackage[french]{babel}  % Les traductions françaises
+\usepackage{numprint}        % \numprint(9,36) pour utilisation de la virgule comme séparateur décimal
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage[ top=2cm, bottom=2cm]{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{titling} % Required for customizing the title section
+\usepackage{float} % Ajoutez ceci dans le préambule de votre document
+\usepackage{tikz}
+\usepackage{siunitx}
+\usepackage{tgtermes}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{tikz}
+\usepackage{makecell}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\pgfplotsset{compat=newest}
+\usepackage{float}
+\addto\captionsfrench{\def\tablename{Tableau}} % Remplace "Table" par "Tableau"
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\pgfplotsset{compat=newest}
+
+\pagestyle{plain}
+\fancyhf{}
+\rhead{TP - CSD}
+\date{}
+
+
+\usepackage{fancyhdr}
+\usepackage[bottom]{footmisc}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.4pt} % crée la barre de l'entête
+\renewcommand{\footrulewidth}{0.2pt} % crée la barre dans le pied de page
+
+
+\renewcommand{\sectionmark}[1]{\markright{#1}} % actualise le titre en fonction de la section
+
+
+\fancyhf{} % Efface les en-têtes et pieds de page existants
+\fancyhead[L]{\rightmark} % titre de la section à gauche de l'en-tête
+\fancyfoot[C]{\thepage} %le numéro de page au centre du pied de page
+
+
+
+
+
+
+\title{TPB Thermique}
+\author{Arthur DUPONT, Esteban GREPINET}
+
+
+
+\begin{document}
+
+\setlength{\parindent}{0pt}
+
+
+
+
+
+
+
+
+
+  \begin{titlepage}
+  \centering
+      {\large \textsc{École Polytechnique de l'université de Tours}}\\
+      \textsc{Département mécanique et conception des systèmes }\\
+    \vspace{1cm}
+
+
+
+
+      \hfill
+
+    \vspace{2cm}
+      
+
+     {\large \textbf{\@DUPONT Arthur, GREPINET Esteban}} \\
+     {\large\textbf{TP du \@5 décembre 2024}}
+
+    \vspace{4cm} 
+  
+       {\LARGE \textbf{\@TP B - Transfert Thermique}} \\
+
+       
+    \vspace{1cm}
+
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south west, inner sep=24pt] at (current page.south west) {\includegraphics[width=0.3\textwidth]{univTours logo vertical.jpg}};
+\end{tikzpicture}
+
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south east, inner sep=24pt] at (current page.south east) {\includegraphics[width=0.2\textwidth]{MONOGRAMME POLYTECH_RVB.jpg}};
+\end{tikzpicture}
+
+    \vfill
+\end{titlepage}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+
+Dans cette étude, nous allons nous intéresser à la convection à mettre en œuvre pour qu'un transistor respecte une température de fonctionnement admissible. Nous utiliserons une simulation à l'aide du logiciel "\textit{Abaqus}" lors de ce travail.
+
+\subsection{Objectif}
+
+L'objectif principal de ce TP est de comprendre comment modéliser le problème en deux dimensions et comment le traiter pour trouver les conditions nécessaires pour respecter la température admissible du transistor étudié. Pour notre problème, nous avons une température $T_{\text{air}} = \SI{5}{ C}$ et on prend une température admissible du transistor $T_a = \SI{80}{C}$
+
+\subsection{Démarche de la résolution du problème}
+
+Le problème étant symétrique, on peut traiter seulement la moitié du radiateur, ceci permet d'avoir les mêmes résultats pour moins de calculs.
+
+
+\section{Application de la simulation}
+
+
+\[
+\underline{\textbf{Calcul en régime permanent pour h = $5W/m^2K$ \(h\)}}
+\]
+
+
+Dans un premier temps, nous allons observer la température obtenue avec $h = 5W/m^2\cdot K$  à l'aide d'une simulation \textit{"Abaqus"}. Nous avons comme température de l'air : $T_{air} = 5°C $
+
+Nous observons une température maximale de 382°C dans le transistor. La température admissible étant de 80°C pour le transistor, nous voyons rapidement que le choix de $h = 5W/m^2\cdot K$ n'est pas viable pour cette situation.
+
+Nous allons donc chercher de manière empirique un h permettant d'avoir une température maximale dans le transistor comprise entre 75°C et 80°C (Tableau \ref{tab:h_empirique}).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{blue!17}
+$h$ & $T_\text{max}$ \\
+\hline
+\rowcolor{pink!20}
+5.0 & 382.65 \\
+\hline
+\rowcolor{pink!40}
+26.0 & 82.06 \\
+\hline
+\rowcolor{pink!20}
+26.8 & 79.92 \\
+\hline
+\rowcolor{pink!40}
+30.0 & 72.51 \\
+\hline
+\rowcolor{pink!20}
+40.0 & 56.98 \\
+\hline
+\rowcolor{pink!40}
+80.0 & 33.64 \\
+\hline
+\rowcolor{pink!20}
+150.0 & 22.63 \\
+\hline
+\end{tabular}
+\caption{Température maximale en fonction de h}
+\label{tab:h_empirique}
+\end{table}
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[xlabel={h en W/m².K},ylabel={T\_max en °C},grid=both,width=12cm,height=8cm,legend pos=north east]
+\addplot[mark=*,color=blue,solid] coordinates {
+    (5,382.648)
+    (26,82.0613)
+    (26.8,79.9234)
+    (30,72.5109)
+    (40,56.9835)
+    (80,33.6358)
+    (150,22.6317)
+};
+\addlegendentry{T\_max en fonction de h}
+\end{axis}
+\end{tikzpicture}
+\caption{Exemple de tracé}
+\end{figure}
+
+On prendra donc comme coefficient de convection $h = \SI{26.8}{W.m^{-2}K^{-1}}$
+
+
+\section{Analyse des résultats}
+\subsection{Calcul de la convection naturelle.}
+
+
+\[
+h = \frac{Nu \cdot k}{l_0} \quad \text{et pour une convection naturelle} \quad Nu = C \cdot (Gr \cdot Pr)^n
+\]
+
+
+
+Ainsi on a :
+
+\[
+\begin{array}{cc}
+G_r = \dfrac{\beta \theta_0 g l_0^3 \rho^2}{\mu^2} & P_r = \dfrac{\mu C_p}{K}
+\end{array}
+\]
+
+
+
+
+On obtient : 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{blue!17}
+ & Valeur \\
+\hline
+\rowcolor{pink!20}
+Gr & 458346.24 \\
+\hline
+\rowcolor{pink!40}
+Pr & 0.7 \\
+\hline
+\end{tabular}
+\caption{Gr et Pr}
+\end{table}
+
+Lorsque : 
+
+\begin{itemize}
+    \item $G_r < 10^9$ : Régime laminaire
+    \item $G_r > 10^9$ : Régime turbulent
+\end{itemize}
+
+
+Ainsi on en déduit : 
+
+
+On est donc ici en régime laminaire et on peut calculer $Nu$ avec : 
+
+$$Nu_{CN} = C (G_r Pr)^n$$ avec $C = 0.59$ et  $n=1/4$
+
+On a donc $Nu = \dfrac{h \cdot l_0}{K}$ et on a $h_{CN} = \dfrac{Nu K}{l_0} = 9.28$
+
+Calcul de la convection max 
+
+Sachant que : $$h_\text{min} = h_\text{CN} + h_\text{CF}  $$
+
+On en déduit que $h_\text{CF} = 17.51 $
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{blue!17}
+ & Valeur \\
+\hline
+\rowcolor{pink!20}
+$Re_L$ & 2078.39 \\
+\hline
+\rowcolor{pink!40}
+$Re_T$ & 4579.26 \\
+\hline
+\end{tabular}
+\caption{Reynolds en laminaire et en turbulent}
+\end{table}
+
+
+En considérant en turbulent, on trouve $Re < 5000$, ce qui est absurde, ainsi on est en régime laminaire. 
+
+On en déduit donc la vitesse : 
+
+$$U = \dfrac{R_e\mu}{l_0 \rho}$$
+
+et on obtient : 
+
+$$U = \SI{0.831094627930197}{m/s}$$
+
+
+
+\appendix 
+
+\section{Valeurs numériques}
+
+Avec : 
+\begin{itemize}
+    \item $\rho = 1.118$ kg/m$^3$ : densité.
+    \item $\mu = 1.90 \times 10^{-5}$ Pa$\cdot$s : viscosité dynamique.
+    \item $C_p = 1006.5$ J/(kg$\cdot$K) : chaleur spécifique.
+    \item $k = 2.75 \times 10^{-2}$ W/(m$\cdot$K) : conductivité thermique.
+    \item $\beta = 3.19 \times 10^{-3}$ K$^{-1}$ : coefficient de dilatation thermique.
+    \item $g = 9.81$ m/s$^2$ : accélération gravitationnelle.
+    \item $l_0 = 0.0025 + 0.01 + 0.03$ m : longueur.
+\end{itemize}
+\end{document}
